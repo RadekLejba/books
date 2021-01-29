@@ -1,25 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import {BrowserRouter as Switch, Route} from 'react-router-dom';
+import {Container} from 'react-bootstrap';
+import React, {useState} from 'react';
+
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Home from './Views/Home';
+import itemDetails from './Views/itemDetails';
+import Navigation from "./Components/Navigation";
+import ScrollArrow from "./Components/ScrollArrow"
+import Welcome from './Views/Welcome';
+
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    const [advancedQuery, setAdvancedQuery] = useState("")
+    const [query, setQuery] = useState("react");
+
+    return (
+        <Switch>
+            <div className="App">
+                <header>
+                    <Navigation setQuery={setQuery} setAdvancedQuery={setAdvancedQuery} />
+                </header>
+                <main>
+                    <Container>
+                        <Route path="/" exact component={Welcome} />
+                        <Route path="/home" exact render={() => <Home query={query} advancedQuery={advancedQuery} />} />
+                        <Route path="/volume/:id" component={itemDetails} />
+                    </Container>
+                    <ScrollArrow />
+                </main>
+            </div>
+        </Switch>
+    );
 }
 
 export default App;
